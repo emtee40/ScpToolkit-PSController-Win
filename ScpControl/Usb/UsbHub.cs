@@ -5,7 +5,6 @@ using ScpControl.ScpCore;
 using ScpControl.Shared.Core;
 using ScpControl.Sound;
 using ScpControl.Usb.Ds3;
-using ScpControl.Usb.Ds4;
 using ScpControl.Usb.Gamepads;
 using ScpControl.Utilities;
 
@@ -35,33 +34,6 @@ namespace ScpControl.Usb
             m_Started = true;
 
             byte index = 0;
-
-            // enumerate DS4 devices
-            for (byte instance = 0; instance < _devices.Length && index < _devices.Length; instance++)
-            {
-                try
-                {
-                    UsbDevice current = new UsbDs4();
-                    current.PadId = (DsPadId)index;
-
-                    if (current.Open(instance))
-                    {
-                        if (LogArrival(current))
-                        {
-                            current.HidReportReceived += OnHidReportReceived;
-
-                            _devices[index++] = current;
-                        }
-                        else current.Close();
-                    }
-                    else current.Close();
-                }
-                catch (Exception ex)
-                {
-                    Log.ErrorFormat("Unexpected error: {0}", ex);
-                    break;
-                }
-            }
 
             // enumerate DS3 devices
             for (byte instance = 0; instance < _devices.Length && index < _devices.Length; instance++)
@@ -223,12 +195,6 @@ namespace ScpControl.Usb
                         {
                             arrived = new UsbDs3();
                             Log.Info("DualShock 3 plugged in via Usb");
-                        }
-
-                        if (classGuid == UsbDs4.DeviceClassGuid)
-                        {
-                            arrived = new UsbDs4();
-                            Log.Info("DualShock 4 plugged in via Usb");
                         }
 
                         if (classGuid == UsbGenericGamepad.DeviceClassGuid)

@@ -117,7 +117,6 @@
     <Compile Include="Bluetooth\BthDevice.cs" />
     <Compile Include="Bluetooth\BthDongle.cs" />
     <Compile Include="Bluetooth\Ds3\BthDs3.cs" />
-    <Compile Include="Bluetooth\Ds4\BthDs4.cs" />
     <Compile Include="Bluetooth\BthHandle.cs" />
     <Compile Include="Bluetooth\BthHub.cs">
       <SubType>Component</SubType>
@@ -196,7 +195,6 @@
     </Compile>
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Usb\UsbDevice.cs" />
-    <Compile Include="Usb\Ds4\UsbDs4.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RootHub.cs">
       <SubType>Component</SubType>
@@ -204,7 +202,6 @@
     <Compile Include="RootHub.Designer.cs">
       <DependentUpon>RootHub.cs</DependentUpon>
     </Compile>
-    <Compile Include="BusDevice.cs" />
     <Compile Include="ScpDevice.cs" />
     <Compile Include="ScpHub.cs">
       <SubType>Component</SubType>
@@ -311,9 +308,6 @@
     <Content Include="WinUSB\Ds3Controller.inf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="WinUSB\Ds4Controller.inf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="WinUSB\x86\WdfCoInstaller01011.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -355,14 +349,15 @@
     <None Include="WinUSB\ds3controller.cat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="WinUSB\ds4controller.cat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScpControl.Shared\ScpControl.Shared.csproj">
       <Project>{dcc3a7cd-b7f3-42f0-b1ab-c55ad82c4593}</Project>
       <Name>ScpControl.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViGEmClient\ViGEmClient.csproj">
+      <Project>{aa18ebcf-7e9d-4bc5-8760-e8c6e9a773e5}</Project>
+      <Name>ViGEmClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

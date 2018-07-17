@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
-using ScpControl.Bluetooth.Ds4;
 using ScpControl.ScpCore;
 using ScpControl.Shared.Core;
 using ScpControl.Utilities;
@@ -955,22 +954,15 @@ namespace ScpControl.Bluetooth
                                         #region Fake DS3 workaround
 
                                         // skip fake check for version 4 controllers
-                                        if (!name.Equals(BthDs4.GenuineProductName, StringComparison.OrdinalIgnoreCase))
+                                        if (!hci.GenuineMacAddresses.Any(m => bd.StartsWith(m)))
                                         {
-                                            if (!hci.GenuineMacAddresses.Any(m => bd.StartsWith(m)))
-                                            {
-                                                connection.IsFake = true;
-                                                Log.Warn("Fake DualShock 3 found. Trying Workarounds...");
-                                            }
-                                            else
-                                            {
-                                                connection.IsFake = false;
-                                                Log.Info("Genuine Sony DualShock 3 found");
-                                            }
+                                            connection.IsFake = true;
+                                            Log.Warn("Fake DualShock 3 found. Trying Workarounds...");
                                         }
                                         else
                                         {
-                                            Log.Info("Sony DualShock 4 found");
+                                            connection.IsFake = false;
+                                            Log.Info("Genuine Sony DualShock 3 found");
                                         }
 
                                         #endregion

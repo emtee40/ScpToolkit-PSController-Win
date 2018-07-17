@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using PropertyChanged;
 using ScpControl.Bluetooth;
-using ScpControl.Bluetooth.Ds4;
 using ScpControl.Properties;
 
 namespace ScpControl.ScpCore
@@ -238,16 +237,6 @@ namespace ScpControl.ScpCore
         public byte[] BdLink
         {
             get { return MBdLink; }
-        }
-
-        public Ds4UpdateRate Ds4InputUpdateDelay
-        {
-            get { return (Ds4UpdateRate)Settings.Default.Ds4InputUpdateDelay; }
-            set
-            {
-                if (Enum.IsDefined(typeof(Ds4UpdateRate), value))
-                    Settings.Default.Ds4InputUpdateDelay = (byte)value;
-            }
         }
 
         public bool ProfilesEnabled

@@ -7,7 +7,6 @@ using ScpControl.Bluetooth;
 using ScpControl.Database;
 using ScpControl.ScpCore;
 using ScpControl.Usb.Ds3;
-using ScpControl.Usb.Ds4;
 
 namespace ScpControl.Driver
 {
@@ -112,48 +111,6 @@ namespace ScpControl.Driver
 
             return uninstalled;
         }
-        
-        public static WdiErrorCode InstallDualShock4Controller(WdiDeviceInfo usbDevice, IntPtr hWnd = default(IntPtr))
-        {
-            usbDevice.InfFile = string.Format("Ds4Controller_{0:X4}_{1:X4}.inf", usbDevice.VendorId, usbDevice.ProductId);
-            usbDevice.DeviceType = WdiUsbDeviceType.DualShock4;
 
-            var result = WdiWrapper.InstallWinUsbDriver(usbDevice, UsbDs4.DeviceClassGuid, DriverDirectory, usbDevice.InfFile, hWnd);
-
-            if (result != WdiErrorCode.WDI_SUCCESS)
-            {
-                Log.ErrorFormat("Installing DualShock 4 Controller ({0}) failed: {1}", usbDevice.DeviceId, result);
-                return result;
-            }
-            
-            using (var db = new ScpDb())
-            {
-                db.Engine.PutDbEntity(ScpDb.TableDevices, usbDevice.DeviceId, usbDevice);
-            }
-
-            return result;
-        }
-
-        public static uint UninstallDualShock4Controllers(ref bool rebootRequired)
-        {
-            uint uninstalled = 0;
-
-            if (!Directory.Exists(DriverDirectory))
-                return uninstalled;
-
-            foreach (
-                var file in
-                    Directory.GetFiles(DriverDirectory)
-                        .Where(
-                            f =>
-                                Path.GetFileName(f).StartsWith("Ds4Controller_") &&
-                                Path.GetExtension(f).ToLower().Equals(".inf")))
-            {
-                Difx.Instance.Uninstall(file, DifxFlags.DRIVER_PACKAGE_DELETE_FILES, out rebootRequired);
-                uninstalled++;
-            }
-
-            return uninstalled;
-        }
     }
 }

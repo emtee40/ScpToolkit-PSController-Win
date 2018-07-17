@@ -20,10 +20,11 @@ using ScpControl.Shared.Core;
 using ScpControl.Sound;
 using ScpControl.Usb;
 using ScpControl.Usb.Ds3;
-using ScpControl.Usb.Ds4;
 using ScpControl.Usb.Gamepads;
 using ScpControl.Utilities;
 using ScpControl.Wcf;
+using Nefarius.ViGEm.Client;
+using Nefarius.ViGEm.Client.Targets;
 
 namespace ScpControl
 {
@@ -57,10 +58,9 @@ namespace ScpControl
         private readonly IDictionary<int, ScpNativeFeedChannel> _nativeFeedSubscribers =
             new ConcurrentDictionary<int, ScpNativeFeedChannel>();
 
-        // virtual bus wrapper
-        private readonly BusDevice _scpBus = new BusDevice();
         // Usb hub
         private readonly UsbHub _usbHub = new UsbHub();
+        private readonly ViGEmClient _client = new ViGEmClient();
         // creates a system-wide mutex to check if the root hub has been instantiated already
         private LimitInstance _limitInstance;
         private volatile bool _mSuspended;
@@ -203,6 +203,13 @@ namespace ScpControl
                 new DsNull(DsPadId.Three),
                 new DsNull(DsPadId.Four)
             };
+            DS4Pads = new List<DualShock4Controller>
+            {
+                new DualShock4Controller(_client),
+                new DualShock4Controller(_client),
+                new DualShock4Controller(_client),
+                new DualShock4Controller(_client),
+            };
 
             // subscribe to device plug-in events
             _bthHub.Arrival += OnDeviceArrival;
@@ -227,6 +234,11 @@ namespace ScpControl
         ///     A collection of currently connected game pads.
         /// </summary>
         public IList<IDsDevice> Pads { get; private set; }
+
+        /// <summary>
+        ///     A collection of currently emulated game pads.
+        /// </summary>
+        public IList<DualShock4Controller> DS4Pads { get; private set; }
 
         [Obsolete]
         public string Dongle
@@ -312,7 +324,7 @@ namespace ScpControl
 
             #endregion
 
-            opened |= _scpBus.Open(GlobalConfiguration.Instance.Bus);
+            //Delopened |= _scpBus.Open(GlobalConfiguration.Instance.Bus);
             opened |= _usbHub.Open();
             opened |= _bthHub.Open();
 
@@ -358,7 +370,7 @@ namespace ScpControl
                 return false;
             }
 
-            m_Started |= _scpBus.Start();
+            //Delm_Started |= _scpBus.Start();
             m_Started |= _usbHub.Start();
             m_Started |= _bthHub.Start();
 
@@ -387,7 +399,7 @@ namespace ScpControl
             if (_rxFeedServer != null)
                 _rxFeedServer.Dispose();
 
-            _scpBus.Stop();
+            //Del_scpBus.Stop();
             _usbHub.Stop();
             _bthHub.Stop();
 
@@ -423,7 +435,7 @@ namespace ScpControl
                     t.Disconnect();
             }
 
-            _scpBus.Suspend();
+            //Del_scpBus.Suspend();
             _usbHub.Suspend();
             _bthHub.Suspend();
 
@@ -435,13 +447,13 @@ namespace ScpControl
         {
             Log.Debug("++ Resumed");
 
-            _scpBus.Resume();
+            //Del_scpBus.Resume();
 
             for (var index = 0; index < Pads.Count; index++)
             {
                 if (Pads[index].State != DsState.Disconnected)
                 {
-                    _scpBus.Plugin(index + 1);
+                    //Del_scpBus.Plugin(index + 1);
                 }
             }
 
@@ -469,12 +481,6 @@ namespace ScpControl
             if (_mSuspended) return DsPadId.None;
 
             var classGuid = Guid.Parse(Class);
-
-            // forward message for wired DS4 to usb hub
-            if (classGuid == UsbDs4.DeviceClassGuid)
-            {
-                return _usbHub.Notify(notification, Class, path);
-            }
 
             // forward message for wired DS3 to usb hub
             if (classGuid == UsbDs3.DeviceClassGuid)
@@ -546,7 +552,7 @@ namespace ScpControl
 
             if (bFound)
             {
-                _scpBus.Plugin((int)arrived.PadId + 1);
+                //Del_scpBus.Plugin((int)arrived.PadId + 1);
 
                 if (!GlobalConfiguration.Instance.IsVBusDisabled)
                 {
@@ -571,7 +577,7 @@ namespace ScpControl
             if (e.PadState == DsState.Connected)
             {
                 // translate current report to Xbox format and send it to bus device
-                XOutputWrapper.Instance.SetState((uint) serial, _scpBus.Parse(e));
+                //DelXOutputWrapper.Instance.SetState((uint) serial, _scpBus.Parse(e));
                 
                 // set currently assigned XInput slot
                 Pads[serial].XInputSlot = XOutputWrapper.Instance.GetRealIndex((uint) serial);
@@ -597,7 +603,7 @@ namespace ScpControl
 
                 if (GlobalConfiguration.Instance.AlwaysUnPlugVirtualBusDevice)
                 {
-                    _scpBus.Unplug(_scpBus.IndexToSerial((byte)e.PadId));
+                    //Del_scpBus.Unplug(_scpBus.IndexToSerial((byte)e.PadId));
                 }
             }
 

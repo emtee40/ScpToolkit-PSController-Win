@@ -5,7 +5,6 @@ using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 using ScpControl.Bluetooth.Ds3;
-using ScpControl.Bluetooth.Ds4;
 using ScpControl.Shared.Core;
 using ScpControl.Utilities;
 
@@ -113,7 +112,7 @@ namespace ScpControl.Bluetooth
             get { return Guid.Parse("{2F87C733-60E0-4355-8515-95D6978418B2}"); }
         }
 
-        public PhysicalAddress BluetoothHostAddress { get; protected set; }
+        public PhysicalAddress BluetoothHostAddress { get; set; }
 
         public string HciVersion
         {
@@ -220,10 +219,7 @@ namespace ScpControl.Bluetooth
                 if (_connected.Count < 4)
                 {
                     // TODO: weak check, maybe improve in future
-                    if (name.Equals(BthDs4.GenuineProductName, StringComparison.OrdinalIgnoreCase))
-                        connection = new BthDs4(this, BluetoothHostAddress, lsb, msb);
-                    else
-                        connection = new BthDs3(this, BluetoothHostAddress, lsb, msb);
+                    connection = new BthDs3(this, BluetoothHostAddress, lsb, msb);
 
                     _connected[connection.HciHandle] = connection;
                 }

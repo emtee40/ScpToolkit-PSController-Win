@@ -2,7 +2,6 @@
 using System.Net.NetworkInformation;
 using System.Reflection;
 using log4net;
-using ScpControl.Bluetooth.Ds4;
 using ScpControl.Shared.Core;
 using ScpControl.Utilities;
 
@@ -105,8 +104,6 @@ namespace ScpControl.Bluetooth
             set
             {
                 _remoteName = value;
-                if (!string.IsNullOrEmpty(_remoteName) && _remoteName.Equals(BthDs4.GenuineProductName))
-                    _model = DsModel.DS4;
             }
         }
 
