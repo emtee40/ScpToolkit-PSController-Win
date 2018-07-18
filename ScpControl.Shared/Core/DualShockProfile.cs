@@ -46,7 +46,6 @@ namespace ScpControl.Shared.Core
     [ImplementPropertyChanged]
     [DataContract]
     [KnownType(typeof (Ds3Button))]
-    [KnownType(typeof (Ds4Button))]
     [KnownType(typeof (VirtualKeyCode))]
     [KnownType(typeof (MouseButton))]
     [DisplayName("DualShock Profile")]
@@ -73,25 +72,25 @@ namespace ScpControl.Shared.Core
         /// </summary>
         private void OnCreated()
         {
-            Ps = new DsButtonProfile(Ds3Button.Ps, Ds4Button.Ps);
-            Circle = new DsButtonProfile(Ds3Button.Circle, Ds4Button.Circle);
-            Cross = new DsButtonProfile(Ds3Button.Cross, Ds4Button.Cross);
-            Square = new DsButtonProfile(Ds3Button.Square, Ds4Button.Square);
-            Triangle = new DsButtonProfile(Ds3Button.Triangle, Ds4Button.Triangle);
-            Select = new DsButtonProfile(Ds3Button.Select, Ds4Button.Share);
-            Start = new DsButtonProfile(Ds3Button.Start, Ds4Button.Options);
-            LeftShoulder = new DsButtonProfile(Ds3Button.L1, Ds4Button.L1);
-            RightShoulder = new DsButtonProfile(Ds3Button.R1, Ds4Button.R1);
-            LeftTrigger = new DsButtonProfile(Ds3Button.L2, Ds4Button.L2);
-            RightTrigger = new DsButtonProfile(Ds3Button.R2, Ds4Button.R2);
-            LeftThumb = new DsButtonProfile(Ds3Button.L3, Ds4Button.L3);
-            RightThumb = new DsButtonProfile(Ds3Button.R3, Ds4Button.R3);
+            Ps = new DsButtonProfile(Ds3Button.Ps);
+            Circle = new DsButtonProfile(Ds3Button.Circle);
+            Cross = new DsButtonProfile(Ds3Button.Cross);
+            Square = new DsButtonProfile(Ds3Button.Square);
+            Triangle = new DsButtonProfile(Ds3Button.Triangle);
+            Select = new DsButtonProfile(Ds3Button.Select);
+            Start = new DsButtonProfile(Ds3Button.Start);
+            LeftShoulder = new DsButtonProfile(Ds3Button.L1);
+            RightShoulder = new DsButtonProfile(Ds3Button.R1);
+            LeftTrigger = new DsButtonProfile(Ds3Button.L2);
+            RightTrigger = new DsButtonProfile(Ds3Button.R2);
+            LeftThumb = new DsButtonProfile(Ds3Button.L3);
+            RightThumb = new DsButtonProfile(Ds3Button.R3);
 
             // D-Pad
-            Up = new DsButtonProfile(Ds3Button.Up, Ds4Button.Up);
-            Right = new DsButtonProfile(Ds3Button.Right, Ds4Button.Right);
-            Down = new DsButtonProfile(Ds3Button.Down, Ds4Button.Down);
-            Left = new DsButtonProfile(Ds3Button.Left, Ds4Button.Left);
+            Up = new DsButtonProfile(Ds3Button.Up);
+            Right = new DsButtonProfile(Ds3Button.Right);
+            Down = new DsButtonProfile(Ds3Button.Down);
+            Left = new DsButtonProfile(Ds3Button.Left);
         }
 
         #endregion
@@ -327,12 +326,6 @@ namespace ScpControl.Shared.Core
                         // if target is no valid button or none, skip setting it
                         if (target == null) continue;
 
-                        // if it's a DS4, translate button
-                        if (report.Model == DsModel.DS4)
-                        {
-                            target = Ds4Button.Buttons.First(b => b.Name.Equals(target.Name));
-                        }
-
                         // if original isn't pressed we can ignore
                         if (!report[button].IsPressed) continue;
 
@@ -425,8 +418,7 @@ namespace ScpControl.Shared.Core
         public void ApplyOn(ScpHidReport report, IDsButton button)
         {
             // button type must match model, madness otherwise!
-            if ((report.Model != DsModel.DS3 || !(button is Ds3Button)) &&
-                (report.Model != DsModel.DS4 || !(button is Ds4Button))) return;
+            if (report.Model != DsModel.DS3 || !(button is Ds3Button)) return;
 
             // if button got released...
             if (_isActive && !report[button].IsPressed)

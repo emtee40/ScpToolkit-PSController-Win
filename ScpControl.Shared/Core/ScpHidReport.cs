@@ -26,12 +26,6 @@ namespace ScpControl.Shared.Core
         private static readonly PropertyInfo[] Ds3Axes =
             typeof (Ds3Axis).GetProperties(BindingFlags.Public | BindingFlags.Static);
 
-        private static readonly PropertyInfo[] Ds4Buttons =
-            typeof (Ds4Button).GetProperties(BindingFlags.Public | BindingFlags.Static);
-
-        private static readonly PropertyInfo[] Ds4Axes =
-            typeof (Ds4Axis).GetProperties(BindingFlags.Public | BindingFlags.Static);
-
         #endregion
 
         #region Public methods
@@ -192,15 +186,6 @@ namespace ScpControl.Shared.Core
                             return true;
                         }
                         break;
-                    case DsModel.DS4:
-                        if (
-                            Ds4Buttons.Any(
-                                button => this[button.GetValue(typeof (Ds3Button), null) as IDsButton].IsPressed)
-                            || Ds4Axes.Any(axis => this[axis.GetValue(typeof (Ds4Axis), null) as IDsAxis].IsEngaged))
-                        {
-                            return true;
-                        }
-                        break;
                     default:
                         return false;
                 }
@@ -226,13 +211,6 @@ namespace ScpControl.Shared.Core
                             Y = (short)((RawBytes[51] << 8) | RawBytes[52]),
                             Z = (short)((RawBytes[53] << 8) | RawBytes[54])
                         };
-                    case DsModel.DS4:
-                        return new DsAccelerometer
-                        {
-                            Y = (short) ((RawBytes[22] << 8) | RawBytes[21]),
-                            X = (short) -((RawBytes[24] << 8) | RawBytes[23]),
-                            Z = (short) -((RawBytes[26] << 8) | RawBytes[25])
-                        };
                 }
 
                 return new DsAccelerometer();
@@ -256,60 +234,9 @@ namespace ScpControl.Shared.Core
                             Roll = (short)((RawBytes[51] << 8) | RawBytes[52]),
                             Pitch = (short)((RawBytes[53] << 8) | RawBytes[54])
                         };
-                    case DsModel.DS4:
-                        return new DsGyroscope
-                        {
-                            Roll = (short) -((RawBytes[28] << 8) | RawBytes[27]),
-                            Yaw = (short) ((RawBytes[30] << 8) | RawBytes[29]),
-                            Pitch = (short) ((RawBytes[32] << 8) | RawBytes[31])
-                        };
                 }
 
                 return new DsGyroscope();
-            }
-        }
-
-        #endregion
-
-        #region DualShock 4 specific properties
-
-        /// <summary>
-        ///     The first touch spot on the DualShock 4 track pad.
-        /// </summary>
-        /// <remarks>https://github.com/ehd/node-ds4</remarks>
-        public DsTrackPadTouch TrackPadTouch0
-        {
-            get
-            {
-                if (Model != DsModel.DS4) return null;
-
-                return new DsTrackPadTouch
-                {
-                    Id = RawBytes[43] & 0x7f,
-                    IsActive = RawBytes[43] >> 7 == 0,
-                    X = ((RawBytes[45] & 0x0f) << 8) | RawBytes[44],
-                    Y = RawBytes[46] << 4 | ((RawBytes[45] & 0xf0) >> 4)
-                };
-            }
-        }
-
-        /// <summary>
-        ///     The second touch spot on the DualShock 4 track pad.
-        /// </summary>
-        /// <remarks>https://github.com/ehd/node-ds4</remarks>
-        public DsTrackPadTouch TrackPadTouch1
-        {
-            get
-            {
-                if (Model != DsModel.DS4) return null;
-
-                return new DsTrackPadTouch
-                {
-                    Id = RawBytes[47] & 0x7f,
-                    IsActive = RawBytes[47] >> 7 == 0,
-                    X = ((RawBytes[49] & 0x0f) << 8) | RawBytes[48],
-                    Y = RawBytes[50] << 4 | ((RawBytes[49] & 0xf0) >> 4)
-                };
             }
         }
 
@@ -335,23 +262,6 @@ namespace ScpControl.Shared.Core
 
                     _currentDsButtonState.IsPressed = !button.Equals(Ds3Button.None) &&
                                                       (buttons & button.Offset) == button.Offset;
-                    _currentDsButtonState.Xbox360Button = _currentDsButtonState.IsPressed
-                        ? button.Xbox360Button
-                        : X360Button.None;
-
-                    return _currentDsButtonState;
-                }
-
-                if (button is Ds4Button && Model == DsModel.DS4)
-                {
-                    var buttons =
-                        (uint) ((RawBytes[13] << 0) | (RawBytes[14] << 8) | (RawBytes[15] << 16));
-
-                    _currentDsButtonState.IsPressed = !button.Equals(Ds4Button.None) &&
-                                                      (buttons & button.Offset) == button.Offset;
-                    _currentDsButtonState.Xbox360Button = _currentDsButtonState.IsPressed
-                        ? button.Xbox360Button
-                        : X360Button.None;
 
                     return _currentDsButtonState;
                 }
@@ -371,10 +281,10 @@ namespace ScpControl.Shared.Core
         {
             get
             {
-                if ((!(axis is Ds3Axis) || Model != DsModel.DS3) && (!(axis is Ds4Axis) || Model != DsModel.DS4))
+                if ((!(axis is Ds3Axis) || Model != DsModel.DS3))
                     throw new NotImplementedException();
 
-                if (axis.Equals(Ds3Axis.None) || axis.Equals(Ds4Axis.None))
+                if (axis.Equals(Ds3Axis.None))
                 {
                     _currentDsAxisState.IsEngaged = false;
                     return _currentDsAxisState;

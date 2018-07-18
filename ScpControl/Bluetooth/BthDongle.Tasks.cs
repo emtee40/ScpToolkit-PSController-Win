@@ -49,14 +49,7 @@ namespace ScpControl.Bluetooth
 
                     if (connection == null) continue;
 
-                    if (connection.Model == DsModel.DS4)
-                    {
-                        ParseBufferDs4(connection, buffer, transfered);
-                    }
-                    else
-                    {
-                        ParseBufferDs3(connection, packet);
-                    }
+                    ParseBufferDs3(connection, packet);
                 }
                 catch (Exception ex)
                 {

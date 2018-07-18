@@ -91,39 +91,6 @@ namespace ScpMonitor
                                 axPS.Value = (Byte)(e[Ds3Button.Ps].IsPressed ? 255 : 0);
                             }
                             break;
-
-                        case DsModel.DS4:
-                            {
-                                axLX.Value = e[Ds4Axis.Lx].Value;
-                                axLY.Value = e[Ds4Axis.Ly].Value;
-                                axRX.Value = e[Ds4Axis.Rx].Value;
-                                axRY.Value = e[Ds4Axis.Ry].Value;
-
-                                axL2.Value = e[Ds4Axis.L2].Value;
-                                axR2.Value = e[Ds4Axis.R2].Value;
-
-                                axL1.Value = (Byte)(e[Ds4Button.L1].IsPressed ? 255 : 0);
-                                axR1.Value = (Byte)(e[Ds4Button.R1].IsPressed ? 255 : 0);
-                                axL3.Value = (Byte)(e[Ds4Button.L3].IsPressed ? 255 : 0);
-                                axR3.Value = (Byte)(e[Ds4Button.R3].IsPressed ? 255 : 0);
-
-                                axSH.Value = (Byte)(e[Ds4Button.Share].IsPressed ? 255 : 0);
-                                axOP.Value = (Byte)(e[Ds4Button.Options].IsPressed ? 255 : 0);
-
-                                axT.Value = (Byte)(e[Ds4Button.Triangle].IsPressed ? 255 : 0);
-                                axC.Value = (Byte)(e[Ds4Button.Circle].IsPressed ? 255 : 0);
-                                axX.Value = (Byte)(e[Ds4Button.Cross].IsPressed ? 255 : 0);
-                                axS.Value = (Byte)(e[Ds4Button.Square].IsPressed ? 255 : 0);
-
-                                axU.Value = (Byte)(e[Ds4Button.Up].IsPressed ? 255 : 0);
-                                axR.Value = (Byte)(e[Ds4Button.Right].IsPressed ? 255 : 0);
-                                axD.Value = (Byte)(e[Ds4Button.Down].IsPressed ? 255 : 0);
-                                axL.Value = (Byte)(e[Ds4Button.Left].IsPressed ? 255 : 0);
-
-                                axPS.Value = (Byte)(e[Ds4Button.Ps].IsPressed ? 255 : 0);
-                                axTP.Value = (Byte)(e[Ds4Button.TouchPad].IsPressed ? 255 : 0);
-                            }
-                            break;
                     }
                 }
             }
