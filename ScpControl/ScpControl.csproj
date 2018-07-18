@@ -135,7 +135,6 @@
     <Compile Include="Driver\PNPUtilLib\PNPUtil.cs" />
     <Compile Include="Driver\WdiWrapper.cs" />
     <Compile Include="Driver\WinUsbWrapper.cs" />
-    <Compile Include="Driver\XOutputWrapper.cs" />
     <Compile Include="Exceptions\RootHubAlreadyStartedException.cs" />
     <Compile Include="Profiler\DualShockProfileManager.cs" />
     <Compile Include="Profiler\VirtualMouse.cs" />
@@ -312,12 +311,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="WinUSB\x86\winusbcoinstaller2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="XOutput\amd64\XOutput1_1.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="XOutput\x86\XOutput1_1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

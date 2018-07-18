@@ -8,7 +8,6 @@ using ScpControl.Bluetooth;
 using ScpControl.Exceptions;
 using ScpControl.Shared.Core;
 using ScpControl.Usb.Ds3;
-using ScpControl.Usb.Ds4;
 using ScpControl.Usb.Gamepads;
 using ScpControl.Utilities;
 using ScpServer.Properties;
@@ -46,7 +45,6 @@ namespace ScpServer
             Icon = Resources.Scp_All;
 
             ScpDevice.RegisterNotify(Handle, UsbDs3.DeviceClassGuid, ref m_Ds3Notify);
-            ScpDevice.RegisterNotify(Handle, UsbDs4.DeviceClassGuid, ref m_Ds4Notify);
             ScpDevice.RegisterNotify(Handle, BthDongle.DeviceClassGuid, ref m_BthNotify);
             ScpDevice.RegisterNotify(Handle, UsbGenericGamepad.DeviceClassGuid, ref _genericNotify);
 

@@ -180,9 +180,6 @@ namespace ScpControl.Driver
                 case WdiUsbDeviceType.DualShock3:
                     cliArgs.AppendFormat("--name \"DualShock 3 Controller (ScpToolkit)\" ");
                     break;
-                case WdiUsbDeviceType.DualShock4:
-                    cliArgs.AppendFormat("--name \"DualShock 4 Controller (ScpToolkit)\" ");
-                    break;
             }
             cliArgs.AppendFormat("--inf \"{0}\" ", infName);
             cliArgs.AppendFormat("--manufacturer \"ScpToolkit compatible device\" ");
@@ -331,7 +328,6 @@ namespace ScpControl.Driver
     {
         Unknown,
         BluetoothHost,
-        DualShock3,
-        DualShock4
+        DualShock3
     }
 }

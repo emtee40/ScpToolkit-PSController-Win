@@ -148,8 +148,6 @@ namespace ScpCleanWipe
 
                 DriverInstaller.UninstallDualShock3Controllers(ref rebootRequired);
 
-                DriverInstaller.UninstallDualShock4Controllers(ref rebootRequired);
-
                 if (Devcon.Find(Guid.Parse("f679f562-3164-42ce-a4db-e7ddbe723909"), ref devPath, ref instanceId))
                 {
                     if (Devcon.Remove(Guid.Parse("f679f562-3164-42ce-a4db-e7ddbe723909"), devPath, instanceId))

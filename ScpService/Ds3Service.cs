@@ -13,7 +13,6 @@ using ScpControl.Database;
 using ScpControl.ScpCore;
 using ScpControl.Shared.Core;
 using ScpControl.Usb.Ds3;
-using ScpControl.Usb.Ds4;
 using ScpControl.Usb.Gamepads;
 
 namespace ScpService
@@ -81,13 +80,6 @@ namespace ScpService
 
                     if (GlobalConfiguration.Instance.ForceDs3DriverReinstallation)
                         DriverInstaller.InstallDualShock3Controllers(ds3Devices);
-
-                    var ds4Devices = db.Engine.GetAllDbEntities<WdiDeviceInfo>(ScpDb.TableDevices)
-                        .Where(d => d.Value.DeviceType == WdiUsbDeviceType.DualShock4)
-                        .Select(d => d.Value);
-
-                    if (GlobalConfiguration.Instance.ForceDs4DriverReinstallation)
-                        DriverInstaller.InstallDualShock4Controllers(ds4Devices);
 #endif
                 }
             });
@@ -115,7 +107,6 @@ namespace ScpService
             Log.DebugFormat("Time spent 'till registering notifications: {0}", sw.Elapsed);
 
             ScpDevice.RegisterNotify(_mServiceHandle, UsbDs3.DeviceClassGuid, ref _ds3Notify, false);
-            ScpDevice.RegisterNotify(_mServiceHandle, UsbDs4.DeviceClassGuid, ref _ds4Notify, false);
             ScpDevice.RegisterNotify(_mServiceHandle, BthDongle.DeviceClassGuid, ref _bthNotify, false);
             ScpDevice.RegisterNotify(_mServiceHandle, UsbGenericGamepad.DeviceClassGuid, ref _genericNotify, false);
 

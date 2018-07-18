@@ -8,7 +8,6 @@ using ScpControl.Bluetooth;
 using ScpControl.Driver;
 using ScpControl.ScpCore;
 using ScpControl.Usb.Ds3;
-using ScpControl.Usb.Ds4;
 using ScpControl.Usb.PnP;
 using ScpControl.Utilities;
 using ScpDriverInstaller.Properties;
@@ -114,7 +113,7 @@ namespace ScpDriverInstaller
                     var usbDevice in
                         usbDevices.Where(
                             d => d.VendorId == _hidUsbDs3.VendorId
-                                 && (d.ProductId == _hidUsbDs3.ProductId || d.ProductId == _hidUsbDs4.ProductId)
+                                 && (d.ProductId == _hidUsbDs3.ProductId)
                                  && !string.IsNullOrEmpty(d.CurrentDriver)
                                  && d.CurrentDriver.Equals("HidUsb"))
                     )
@@ -139,7 +138,7 @@ namespace ScpDriverInstaller
                     var usbDevice in
                         usbDevices.Where(
                             d => d.VendorId == _hidUsbDs3.VendorId
-                                 && (d.ProductId == _hidUsbDs3.ProductId || d.ProductId == _hidUsbDs4.ProductId)
+                                 && (d.ProductId == _hidUsbDs3.ProductId)
                                  && !string.IsNullOrEmpty(d.CurrentDriver)
                                  && d.CurrentDriver.Equals("WinUSB"))
                     )
@@ -232,8 +231,6 @@ namespace ScpDriverInstaller
         private IntPtr _hWnd;
         private readonly UsbNotifier _hidUsbDs3 = new UsbNotifier(0x054C, 0x0268);
         private readonly UsbNotifier _winUsbDs3 = new UsbNotifier(0x054C, 0x0268, UsbDs3.DeviceClassGuid);
-        private readonly UsbNotifier _hidUsbDs4 = new UsbNotifier(0x054C, 0x05C4);
-        private readonly UsbNotifier _winUsbDs4 = new UsbNotifier(0x054C, 0x05C4, UsbDs4.DeviceClassGuid);
 
         /// <summary>
         ///     The GUID_BTHPORT_DEVICE_INTERFACE device interface class is defined for Bluetooth radios.
@@ -623,8 +620,6 @@ namespace ScpDriverInstaller
             {
                 _hidUsbDs3.UnregisterHandle();
                 _winUsbDs3.UnregisterHandle();
-                _hidUsbDs4.UnregisterHandle();
-                _winUsbDs4.UnregisterHandle();
                 _genericBluetoothHost.UnregisterHandle();
             }
 
@@ -657,22 +652,6 @@ namespace ScpDriverInstaller
                 _winUsbDs3.CheckDevicePresent();
             }
 
-            // listen for DualShock 4 plug-in events (HidUsb)
-            {
-                _hidUsbDs4.OnDeviceRemoved += (sender, args) => OnUsbDeviceAddedOrRemoved();
-                _hidUsbDs4.OnSpecifiedDeviceArrived += (sender, args) => OnUsbDeviceAddedOrRemoved();
-                _hidUsbDs4.RegisterHandle(_hWnd);
-                _hidUsbDs4.CheckDevicePresent();
-            }
-
-            // listen for DualShock 4 plug-in events (HidUsb)
-            {
-                _winUsbDs4.OnDeviceRemoved += (sender, args) => OnUsbDeviceAddedOrRemoved();
-                _winUsbDs4.OnSpecifiedDeviceArrived += (sender, args) => OnUsbDeviceAddedOrRemoved();
-                _winUsbDs4.RegisterHandle(_hWnd);
-                _winUsbDs4.CheckDevicePresent();
-            }
-
             // listen for Bluetooth devices (BTHUSB or WinUSB)
             {
                 _genericBluetoothHost.OnDeviceRemoved += (sender, args) => OnUsbDeviceAddedOrRemoved();
@@ -699,8 +678,6 @@ namespace ScpDriverInstaller
         {
             _hidUsbDs3.ParseMessages(msg, wParam);
             _winUsbDs3.ParseMessages(msg, wParam);
-            _hidUsbDs4.ParseMessages(msg, wParam);
-            _winUsbDs4.ParseMessages(msg, wParam);
             _genericBluetoothHost.ParseMessages(msg, wParam);
             _winUsbBluetoothHost.ParseMessages(msg, wParam);
 
