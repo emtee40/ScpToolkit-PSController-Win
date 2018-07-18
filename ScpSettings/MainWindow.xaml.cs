@@ -87,7 +87,6 @@ namespace ScpSettings
             IdleTimeoutSlider_ValueChanged(null, new RoutedPropertyChangedEventArgs<double> (0, IdleTimeoutSlider.Value));
             RumbleLatencySlider_ValueChanged(null, new RoutedPropertyChangedEventArgs<double>(0, RumbleLatencySlider.Value));
             LEDsFlashingPeriodSlider_ValueChanged(null, new RoutedPropertyChangedEventArgs<double>(0, LEDsFlashingPeriodSlider.Value));
-            BrightnessSlider_ValueChanged(null, new RoutedPropertyChangedEventArgs<double>(0, BrightnessSlider.Value));
         }
 
         private void IdleTimeoutSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -106,15 +105,6 @@ namespace ScpSettings
             {
                 IdleTimeoutGroupBox.Header = string.Format("Idle Timeout: {0} minutes", value);
             }
-        }
-
-        private void BrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            var value = e.NewValue;
-
-            BrightnessGroupBox.Header = value == 0
-                ? "Light Bar Brightness: Disabled"
-                : string.Format("Light Bar Brightness: {0}%", (int)((value * 100) / 255));
         }
 
         private void RumbleLatencySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -202,7 +192,6 @@ namespace ScpSettings
         private void DisableEvents()
         {
             IdleTimeoutSlider.ValueChanged -= IdleTimeoutSlider_ValueChanged;
-            BrightnessSlider.ValueChanged -= BrightnessSlider_ValueChanged;
 
             RumbleLatencySlider.ValueChanged -= RumbleLatencySlider_ValueChanged;
             LEDsFlashingPeriodSlider.ValueChanged -= LEDsFlashingPeriodSlider_ValueChanged;
@@ -214,7 +203,6 @@ namespace ScpSettings
         private void EnableEvents()
         {
             IdleTimeoutSlider.ValueChanged += IdleTimeoutSlider_ValueChanged;
-            BrightnessSlider.ValueChanged += BrightnessSlider_ValueChanged;
 
             RumbleLatencySlider.ValueChanged += RumbleLatencySlider_ValueChanged;
             LEDsFlashingPeriodSlider.ValueChanged += LEDsFlashingPeriodSlider_ValueChanged;
