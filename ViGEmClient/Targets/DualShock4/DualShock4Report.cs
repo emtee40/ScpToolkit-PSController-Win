@@ -69,6 +69,7 @@ namespace Nefarius.ViGEm.Client.Targets.DualShock4
             LeftThumbY = 0x80;
             RightThumbX = 0x80;
             RightThumbY = 0x80;
+            Battery = 0xFF;
         }
 
         public ushort Buttons { get; set; }
@@ -98,5 +99,7 @@ namespace Nefarius.ViGEm.Client.Targets.DualShock4
         public short AccelY { get; set; }
 
         public short AccelZ { get; set; }
+
+        public byte Battery { get; set; }
     }
 }

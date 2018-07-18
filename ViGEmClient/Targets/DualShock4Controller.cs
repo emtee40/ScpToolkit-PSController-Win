@@ -59,7 +59,8 @@ namespace Nefarius.ViGEm.Client.Targets
                 bGyroZ = report.GyroZ,
                 bAccelX = report.AccelX,
                 bAccelY = report.AccelY,
-                bAccelZ = report.AccelZ
+                bAccelZ = report.AccelZ,
+                bBattery = report.Battery
             };
 
             var error = ViGEmClient.vigem_target_ds4_update(Client.NativeHandle, NativeHandle, submit);

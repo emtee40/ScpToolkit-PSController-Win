@@ -4,6 +4,11 @@ namespace Nefarius.ViGEm.Client.Targets.DualShock4
 {
     public static class DualShock4ReportExtensions
     {
+        public static void SetBatteryState(this DualShock4Report report, byte state)
+        {
+            report.Battery = state;
+        }
+
         public static void SetButtons(this DualShock4Report report, params DualShock4Buttons[] buttons)
         {
             foreach (var button in buttons)

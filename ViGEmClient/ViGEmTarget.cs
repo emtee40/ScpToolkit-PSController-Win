@@ -10,6 +10,8 @@ namespace Nefarius.ViGEm.Client
     /// </summary>
     public abstract class ViGEmTarget : IDisposable
     {
+        private bool Connected;
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="ViGEmTarget"/> bound to a <see cref="ViGEmClient"/>.
         /// </summary>
@@ -60,6 +62,8 @@ namespace Nefarius.ViGEm.Client
                 case ViGEmClient.VIGEM_ERROR.VIGEM_ERROR_NO_FREE_SLOT:
                     throw new VigemNoFreeSlotException();
             }
+
+            Connected = true;
         }
 
         /// <summary>
@@ -80,6 +84,13 @@ namespace Nefarius.ViGEm.Client
                 case ViGEmClient.VIGEM_ERROR.VIGEM_ERROR_REMOVAL_FAILED:
                     throw new VigemRemovalFailedException();
             }
+
+            Connected = false;
+        }
+
+        public bool IsConnected()
+        {
+            return Connected;
         }
 
         #region IDisposable Support

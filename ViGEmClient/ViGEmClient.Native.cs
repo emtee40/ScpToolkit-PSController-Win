@@ -53,7 +53,7 @@ namespace Nefarius.ViGEm.Client
             public byte bTriggerR;
             public byte unknown;
             public byte unknown2;
-            public byte unknown3;
+            public byte bBattery;
             public byte unknown4;
             public short bGyroX;
             public short bGyroY;
