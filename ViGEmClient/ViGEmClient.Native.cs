@@ -55,18 +55,12 @@ namespace Nefarius.ViGEm.Client
             public byte unknown2;
             public byte unknown3;
             public byte unknown4;
-            public byte bGyroX1;
-            public byte bGyroX2;
-            public byte bGyroY1;
-            public byte bGyroY2;
-            public byte bGyroZ1;
-            public byte bGyroZ2;
-            public byte bAccelX1;
-            public byte bAccelX2;
-            public byte bAccelY1;
-            public byte bAccelY2;
-            public byte bAccelZ1;
-            public byte bAccelZ2;
+            public short bGyroX;
+            public short bGyroY;
+            public short bGyroZ;
+            public short bAccelX;
+            public short bAccelY;
+            public short bAccelZ;
         }
 
         internal enum VIGEM_TARGET_TYPE : UInt32

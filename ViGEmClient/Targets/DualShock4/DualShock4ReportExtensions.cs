@@ -76,5 +76,32 @@ namespace Nefarius.ViGEm.Client.Targets.DualShock4
                     throw new ArgumentOutOfRangeException(nameof(axis), axis, null);
             }
         }
+
+        public static void SetMotion(this DualShock4Report report, DualShock4Motion motion, short value)
+        {
+            switch (motion)
+            {
+                case DualShock4Motion.GyroX:
+                    report.GyroX = value;
+                    break;
+                case DualShock4Motion.GyroY:
+                    report.GyroY = value;
+                    break;
+                case DualShock4Motion.GyroZ:
+                    report.GyroZ = value;
+                    break;
+                case DualShock4Motion.AccelX:
+                    report.AccelX = value;
+                    break;
+                case DualShock4Motion.AccelY:
+                    report.AccelY = value;
+                    break;
+                case DualShock4Motion.AccelZ:
+                    report.AccelZ = value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(motion), motion, null);
+            }
+        }
     }
 }

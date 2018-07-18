@@ -36,6 +36,16 @@ namespace Nefarius.ViGEm.Client.Targets.DualShock4
         RightThumbY
     }
 
+    public enum DualShock4Motion
+    {
+        GyroX,
+        GyroY,
+        GyroZ,
+        AccelX,
+        AccelY,
+        AccelZ
+    }
+
     public enum DualShock4DPadValues
     {
         None = 0x8,
@@ -76,5 +86,17 @@ namespace Nefarius.ViGEm.Client.Targets.DualShock4
         public byte RightThumbX { get; set; }
 
         public byte RightThumbY { get; set; }
+
+        public short GyroX { get; set; }
+
+        public short GyroY { get; set; }
+
+        public short GyroZ { get; set; }
+
+        public short AccelX { get; set; }
+
+        public short AccelY { get; set; }
+
+        public short AccelZ { get; set; }
     }
 }
