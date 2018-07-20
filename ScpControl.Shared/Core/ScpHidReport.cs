@@ -230,9 +230,9 @@ namespace ScpControl.Shared.Core
                     case DsModel.DS3:
                         return new DsGyroscope
                         {
-                            Yaw = (short)-((RawBytes[49] << 8) | RawBytes[50]),
-                            Roll = (short)((RawBytes[51] << 8) | RawBytes[52]),
-                            Pitch = (short)((RawBytes[53] << 8) | RawBytes[54])
+                            Yaw = (short)-((RawBytes[55] << 8) | RawBytes[56]),
+                            Roll = 0,
+                            Pitch = 0
                         };
                 }
 

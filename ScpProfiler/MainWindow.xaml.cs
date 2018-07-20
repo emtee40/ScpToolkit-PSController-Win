@@ -78,25 +78,6 @@ namespace ScpProfiler
                     _vm.CurrentProfile.Down.CurrentValue = report[Ds3Button.Down].Value;
                     _vm.CurrentProfile.Left.CurrentValue = report[Ds3Button.Left].Value;
                     break;
-                case DsModel.DS4:
-                    _vm.CurrentProfile.Ps.CurrentValue = report[Ds4Button.Ps].Value;
-                    _vm.CurrentProfile.Circle.CurrentValue = report[Ds4Button.Circle].Value;
-                    _vm.CurrentProfile.Cross.CurrentValue = report[Ds4Button.Cross].Value;
-                    _vm.CurrentProfile.Square.CurrentValue = report[Ds4Button.Square].Value;
-                    _vm.CurrentProfile.Triangle.CurrentValue = report[Ds4Button.Triangle].Value;
-                    _vm.CurrentProfile.Select.CurrentValue = report[Ds4Button.Share].Value;
-                    _vm.CurrentProfile.Start.CurrentValue = report[Ds4Button.Options].Value;
-                    _vm.CurrentProfile.LeftShoulder.CurrentValue = report[Ds4Button.L1].Value;
-                    _vm.CurrentProfile.RightShoulder.CurrentValue = report[Ds4Button.R1].Value;
-                    _vm.CurrentProfile.LeftTrigger.CurrentValue = report[Ds4Button.L2].Value;
-                    _vm.CurrentProfile.RightTrigger.CurrentValue = report[Ds4Button.R2].Value;
-                    _vm.CurrentProfile.LeftThumb.CurrentValue = report[Ds4Button.L3].Value;
-                    _vm.CurrentProfile.RightThumb.CurrentValue = report[Ds4Button.R3].Value;
-                    _vm.CurrentProfile.Up.CurrentValue = report[Ds4Button.Up].Value;
-                    _vm.CurrentProfile.Right.CurrentValue = report[Ds4Button.Right].Value;
-                    _vm.CurrentProfile.Down.CurrentValue = report[Ds4Button.Down].Value;
-                    _vm.CurrentProfile.Left.CurrentValue = report[Ds4Button.Left].Value;
-                    break;
             }
         }
 

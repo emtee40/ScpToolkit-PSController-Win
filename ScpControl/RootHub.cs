@@ -10,7 +10,6 @@ using System.ServiceModel;
 using Libarius.System;
 using ReactiveSockets;
 using ScpControl.Bluetooth;
-using ScpControl.Driver;
 using ScpControl.Exceptions;
 using ScpControl.Profiler;
 using ScpControl.Properties;
@@ -25,6 +24,7 @@ using ScpControl.Utilities;
 using ScpControl.Wcf;
 using Nefarius.ViGEm.Client;
 using Nefarius.ViGEm.Client.Targets;
+using Nefarius.ViGEm.Client.Targets.DualShock4;
 
 namespace ScpControl
 {
@@ -60,7 +60,7 @@ namespace ScpControl
 
         // Usb hub
         private readonly UsbHub _usbHub = new UsbHub();
-        private readonly ViGEmClient _client = new ViGEmClient();
+        private readonly ViGEmClient _client;
         // creates a system-wide mutex to check if the root hub has been instantiated already
         private LimitInstance _limitInstance;
         private volatile bool _mSuspended;
@@ -187,6 +187,69 @@ namespace ScpControl
             DualShockProfileManager.Instance.RemoveProfile(profile);
         }
 
+        public void FeedbackReceivedEventHandler(object sender, DualShock4FeedbackReceivedEventArgs e) {
+            int padId = DS4Pads.IndexOf((DualShock4Controller)sender);
+            Rumble((DsPadId)padId, e.LargeMotor, e.SmallMotor);
+        }
+
+        public static void ConvertDS3(DualShock4Report report, ScpHidReport scpReport)
+        {
+            report.SetAxis(DualShock4Axes.LeftThumbX, scpReport[Ds3Axis.Lx].Value);
+            report.SetAxis(DualShock4Axes.LeftThumbY, scpReport[Ds3Axis.Ly].Value);
+            report.SetAxis(DualShock4Axes.RightThumbX, scpReport[Ds3Axis.Rx].Value);
+            report.SetAxis(DualShock4Axes.RightThumbY, scpReport[Ds3Axis.Ry].Value);
+            report.SetAxis(DualShock4Axes.LeftTrigger, scpReport[Ds3Axis.L2].Value);
+            report.SetAxis(DualShock4Axes.RightTrigger, scpReport[Ds3Axis.R2].Value);
+
+            report.SetSpecialButtonState(DualShock4SpecialButtons.Ps, scpReport[Ds3Button.Ps].IsPressed);
+            report.SetButtonState(DualShock4Buttons.Circle, scpReport[Ds3Button.Circle].IsPressed);
+            report.SetButtonState(DualShock4Buttons.Cross, scpReport[Ds3Button.Cross].IsPressed);
+            report.SetButtonState(DualShock4Buttons.Square, scpReport[Ds3Button.Square].IsPressed);
+            report.SetButtonState(DualShock4Buttons.Triangle, scpReport[Ds3Button.Triangle].IsPressed);
+            report.SetButtonState(DualShock4Buttons.Share, scpReport[Ds3Button.Select].IsPressed);
+            report.SetButtonState(DualShock4Buttons.Options, scpReport[Ds3Button.Start].IsPressed);
+            report.SetButtonState(DualShock4Buttons.ShoulderLeft, scpReport[Ds3Button.L1].IsPressed);
+            report.SetButtonState(DualShock4Buttons.ShoulderRight, scpReport[Ds3Button.R1].IsPressed);
+            report.SetButtonState(DualShock4Buttons.ThumbLeft, scpReport[Ds3Button.L3].IsPressed);
+            report.SetButtonState(DualShock4Buttons.ThumbRight, scpReport[Ds3Button.R3].IsPressed);
+
+            if (scpReport[Ds3Button.Up].IsPressed)
+                report.SetDPad(DualShock4DPadValues.North);
+            if (scpReport[Ds3Button.Right].IsPressed)
+                report.SetDPad(DualShock4DPadValues.East);
+            if (scpReport[Ds3Button.Down].IsPressed)
+                report.SetDPad(DualShock4DPadValues.South);
+            if (scpReport[Ds3Button.Left].IsPressed)
+                report.SetDPad(DualShock4DPadValues.West);
+            if (scpReport[Ds3Button.Up].IsPressed
+                && scpReport[Ds3Button.Right].IsPressed)
+                report.SetDPad(DualShock4DPadValues.Northeast);
+            if (scpReport[Ds3Button.Down].IsPressed
+                && scpReport[Ds3Button.Right].IsPressed)
+                report.SetDPad(DualShock4DPadValues.Southeast);
+            if (scpReport[Ds3Button.Down].IsPressed
+                && scpReport[Ds3Button.Left].IsPressed)
+                report.SetDPad(DualShock4DPadValues.Southwest);
+            if (scpReport[Ds3Button.Up].IsPressed
+                && scpReport[Ds3Button.Left].IsPressed)
+                report.SetDPad(DualShock4DPadValues.Northwest);
+
+            short accelX = (short)((scpReport.Motion.X + 550) * 130);
+            report.SetMotion(DualShock4Motion.AccelX, accelX);
+            short accelY = (short)((scpReport.Motion.Y + 670) * 130);
+            report.SetMotion(DualShock4Motion.AccelY, accelY);
+            short accelZ = (short)((scpReport.Motion.Z + 370) * 150);
+            report.SetMotion(DualShock4Motion.AccelZ, accelZ);
+            short gyroX = (short)((scpReport.Orientation.Yaw + 550) * 130);
+            report.SetMotion(DualShock4Motion.GyroX, accelX);
+            short gyroY = (short)((scpReport.Orientation.Roll + 670) * 130);
+            report.SetMotion(DualShock4Motion.GyroY, accelY);
+            short gyroZ = (short)((scpReport.Orientation.Pitch + 370) * 150);
+            report.SetMotion(DualShock4Motion.GyroZ, accelZ);
+
+            report.SetBatteryState(scpReport.BatteryStatus);
+        }
+
         #endregion
 
         #region Ctors
@@ -195,6 +258,7 @@ namespace ScpControl
         {
             InitializeComponent();
 
+            _client = new ViGEmClient();
             // prepare "empty" pad list
             Pads = new List<IDsDevice>
             {
@@ -400,6 +464,7 @@ namespace ScpControl
                 _rxFeedServer.Dispose();
 
             //Del_scpBus.Stop();
+            _client.Dispose();
             _usbHub.Stop();
             _bthHub.Stop();
 
@@ -432,7 +497,17 @@ namespace ScpControl
             lock (Pads)
             {
                 foreach (var t in Pads)
+                {
                     t.Disconnect();
+                }
+
+                foreach (var t in DS4Pads)
+                {
+                    if (!t.IsConnected())
+                        continue;
+                    t.Disconnect();
+                    t.FeedbackReceived -= FeedbackReceivedEventHandler;
+                }
             }
 
             //Del_scpBus.Suspend();
@@ -451,9 +526,11 @@ namespace ScpControl
 
             for (var index = 0; index < Pads.Count; index++)
             {
-                if (Pads[index].State != DsState.Disconnected)
+                if (Pads[index].State != DsState.Disconnected && !DS4Pads[index].IsConnected())
                 {
                     //Del_scpBus.Plugin(index + 1);
+                    DS4Pads[index].Connect();
+                    DS4Pads[index].FeedbackReceived += FeedbackReceivedEventHandler;
                 }
             }
 
@@ -550,8 +627,10 @@ namespace ScpControl
                 }
             }
 
-            if (bFound)
+            if (bFound && !DS4Pads[(int)arrived.PadId].IsConnected())
             {
+                DS4Pads[(int)arrived.PadId].Connect();
+                DS4Pads[(int)arrived.PadId].FeedbackReceived += FeedbackReceivedEventHandler;
                 //Del_scpBus.Plugin((int)arrived.PadId + 1);
 
                 if (!GlobalConfiguration.Instance.IsVBusDisabled)
@@ -576,24 +655,10 @@ namespace ScpControl
 
             if (e.PadState == DsState.Connected)
             {
-                // translate current report to Xbox format and send it to bus device
-                //DelXOutputWrapper.Instance.SetState((uint) serial, _scpBus.Parse(e));
-                
-                // set currently assigned XInput slot
-                Pads[serial].XInputSlot = XOutputWrapper.Instance.GetRealIndex((uint) serial);
-
-                byte largeMotor = 0;
-                byte smallMotor = 0;
-
-                // forward rumble request to pad
-                if (XOutputWrapper.Instance.GetState((uint) serial, ref largeMotor, ref smallMotor) 
-                    && (largeMotor != _vibration[serial][0] || smallMotor != _vibration[serial][1]))
-                {
-                    _vibration[serial][0] = largeMotor;
-                    _vibration[serial][1] = smallMotor;
-
-                    Pads[serial].Rumble(largeMotor, smallMotor);
-                }
+                var report = new DualShock4Report();
+                ConvertDS3(report, e);
+                Pads[serial].XInputSlot = (uint) serial;
+                DS4Pads[serial].SendReport(report);
             }
             else
             {
@@ -601,9 +666,11 @@ namespace ScpControl
                 _vibration[serial][0] = _vibration[serial][1] = 0;
                 _mNative[serial][0] = _mNative[serial][1] = 0;
 
-                if (GlobalConfiguration.Instance.AlwaysUnPlugVirtualBusDevice)
+                if (GlobalConfiguration.Instance.AlwaysUnPlugVirtualBusDevice && DS4Pads[(int)e.PadId].IsConnected())
                 {
                     //Del_scpBus.Unplug(_scpBus.IndexToSerial((byte)e.PadId));
+                    DS4Pads[(int)e.PadId].Disconnect();
+                    DS4Pads[(int)e.PadId].FeedbackReceived -= FeedbackReceivedEventHandler;
                 }
             }
 
