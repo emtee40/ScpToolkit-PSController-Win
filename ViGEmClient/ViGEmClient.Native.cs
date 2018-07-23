@@ -51,16 +51,14 @@ namespace Nefarius.ViGEm.Client
             public byte bSpecial;
             public byte bTriggerL;
             public byte bTriggerR;
+            public ushort wTimestamp;
             public byte unknown;
-            public byte unknown2;
-            public byte bBattery;
-            public byte unknown4;
-            public short bGyroX;
-            public short bGyroY;
-            public short bGyroZ;
-            public short bAccelX;
-            public short bAccelY;
-            public short bAccelZ;
+            public short wGyroX;
+            public short wGyroY;
+            public short wGyroZ;
+            public short wAccelX;
+            public short wAccelY;
+            public short wAccelZ;
         }
 
         internal enum VIGEM_TARGET_TYPE : UInt32

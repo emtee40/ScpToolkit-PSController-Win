@@ -205,11 +205,14 @@ namespace ScpControl.Shared.Core
                 switch (Model)
                 {
                     case DsModel.DS3:
+                        short intX = (short)(1023 - (((ushort)RawBytes[41 + 8] << 8) | (ushort)RawBytes[42 + 8]));
+                        short intZ = (short)(((ushort)RawBytes[43 + 8] << 8) | (ushort)RawBytes[44 + 8]);
+                        short intY = (short)(((ushort)RawBytes[45 + 8] << 8) | (ushort)RawBytes[46 + 8]);
                         return new DsAccelerometer
                         {
-                            X = (short)-((RawBytes[49] << 8) | RawBytes[50]),
-                            Y = (short)((RawBytes[51] << 8) | RawBytes[52]),
-                            Z = (short)((RawBytes[53] << 8) | RawBytes[54])
+                            X = (float)(intX - 512) / 113.0f,
+                            Y = (float)(intY - 512) / 113.0f,
+                            Z = (float)(intZ - 512) / 113.0f
                         };
                 }
 
@@ -228,9 +231,10 @@ namespace ScpControl.Shared.Core
                 switch (Model)
                 {
                     case DsModel.DS3:
+                        short intYaw = (short)(((ushort)RawBytes[47 + 8] << 8) | (ushort)RawBytes[48 + 8]);
                         return new DsGyroscope
                         {
-                            Yaw = (short)-((RawBytes[55] << 8) | RawBytes[56]),
+                            Yaw = (float)(intYaw - 512) * (90.0f / 123.0f),
                             Roll = 0,
                             Pitch = 0
                         };

@@ -54,13 +54,13 @@ namespace Nefarius.ViGEm.Client.Targets
                 bThumbRY = report.RightThumbY,
                 bTriggerL = report.LeftTrigger,
                 bTriggerR = report.RightTrigger,
-                bGyroX = report.GyroX,
-                bGyroY = report.GyroY,
-                bGyroZ = report.GyroZ,
-                bAccelX = report.AccelX,
-                bAccelY = report.AccelY,
-                bAccelZ = report.AccelZ,
-                bBattery = report.Battery
+                wTimestamp = report.Timestamp,
+                wGyroX = report.GyroX,
+                wGyroY = report.GyroY,
+                wGyroZ = report.GyroZ,
+                wAccelX = report.AccelX,
+                wAccelY = report.AccelY,
+                wAccelZ = report.AccelZ
             };
 
             var error = ViGEmClient.vigem_target_ds4_update(Client.NativeHandle, NativeHandle, submit);

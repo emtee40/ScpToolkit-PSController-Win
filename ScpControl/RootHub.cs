@@ -234,20 +234,18 @@ namespace ScpControl
                 && scpReport[Ds3Button.Left].IsPressed)
                 report.SetDPad(DualShock4DPadValues.Northwest);
 
-            short accelX = (short)((scpReport.Motion.X + 550) * 130);
+            short accelX = (short)(-scpReport.Motion.X * 8192);
             report.SetMotion(DualShock4Motion.AccelX, accelX);
-            short accelY = (short)((scpReport.Motion.Y + 670) * 130);
+            short accelY = (short)(-scpReport.Motion.Y * 8192);
             report.SetMotion(DualShock4Motion.AccelY, accelY);
-            short accelZ = (short)((scpReport.Motion.Z + 370) * 150);
+            short accelZ = (short)(-scpReport.Motion.Z * 8192);
             report.SetMotion(DualShock4Motion.AccelZ, accelZ);
-            short gyroX = (short)((scpReport.Orientation.Yaw + 550) * 130);
-            report.SetMotion(DualShock4Motion.GyroX, accelX);
-            short gyroY = (short)((scpReport.Orientation.Roll + 670) * 130);
-            report.SetMotion(DualShock4Motion.GyroY, accelY);
-            short gyroZ = (short)((scpReport.Orientation.Pitch + 370) * 150);
-            report.SetMotion(DualShock4Motion.GyroZ, accelZ);
-
-            report.SetBatteryState(scpReport.BatteryStatus);
+            short gyroX = (short)(scpReport.Orientation.Pitch * 16.4f);
+            report.SetMotion(DualShock4Motion.GyroX, gyroX);
+            short gyroY = (short)(-scpReport.Orientation.Yaw * 16.4f);
+            report.SetMotion(DualShock4Motion.GyroY, gyroY);
+            short gyroZ = (short)(-scpReport.Orientation.Roll * 16.4f);
+            report.SetMotion(DualShock4Motion.GyroZ, gyroZ);
         }
 
         #endregion
