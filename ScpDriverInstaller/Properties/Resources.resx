@@ -335,7 +335,7 @@ Sadly, there are too many possibilities of why it failed to cram all suggested r
     <comment>Text shown with the progress bar while creating the Virtual Bus</comment>
   </data>
   <data name="VirtualBusSetupDescription" xml:space="preserve">
-    <value>In this step you can install the virtual Xbox 360 Controller driver.</value>
+    <value>In this step you can install the virtual Controller driver.</value>
     <comment>Text directly visible under the title, showing the user a quick desciption of the Virtual Bus setup</comment>
   </data>
   <data name="VirtualBusSetupIfAlreadyPresent" xml:space="preserve">
@@ -347,7 +347,7 @@ Sadly, there are too many possibilities of why it failed to cram all suggested r
     <comment>Text shown with the progress bar while installing the Virtual Bus driver</comment>
   </data>
   <data name="VirtualBusSetupStartInstall" xml:space="preserve">
-    <value>Install virtual Xbox 360 Controller driver</value>
+    <value>Install virtual controller driver</value>
     <comment>Button to start the setup</comment>
   </data>
   <data name="VirtualBusSetupSuccessInstruction" xml:space="preserve">
@@ -355,7 +355,7 @@ Sadly, there are too many possibilities of why it failed to cram all suggested r
     <comment>Instruction of the setup success dialog box</comment>
   </data>
   <data name="VirtualBusSetupTitle" xml:space="preserve">
-    <value>Install Xbox 360 Controller emulator driver.</value>
+    <value>Install controller emulator driver.</value>
     <comment>Title shown on the Virtual Bus install page</comment>
   </data>
   <data name="VirtualBusSetupToAvoidRestart" xml:space="preserve">
@@ -363,7 +363,7 @@ Sadly, there are too many possibilities of why it failed to cram all suggested r
     <comment>Text saying that other apps using the Virtual Bus needs to be close to avoid a reboot</comment>
   </data>
   <data name="VirtualBusSetupWhatWeWillDo" xml:space="preserve">
-    <value>In this step we will attempt to install the virtual Xbox 360 Controller emulator driver (a.k.a. Scarlett.Crush Productions Virtual Bus Driver, ScpVBus or just Virtual Bus).</value>
+    <value>In this step we will attempt to install the virtual controller emulator driver (a.k.a. Scarlett.Crush Productions Virtual Bus Driver, ScpVBus or just Virtual Bus).</value>
     <comment>A simple description of why we need to install the Virtual Bus</comment>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

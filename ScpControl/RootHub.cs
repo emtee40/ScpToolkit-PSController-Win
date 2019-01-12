@@ -206,7 +206,7 @@ namespace ScpControl
             report.SetButtonState(DualShock4Buttons.Cross, scpReport[Ds3Button.Cross].IsPressed);
             report.SetButtonState(DualShock4Buttons.Square, scpReport[Ds3Button.Square].IsPressed);
             report.SetButtonState(DualShock4Buttons.Triangle, scpReport[Ds3Button.Triangle].IsPressed);
-            report.SetButtonState(DualShock4Buttons.Share, scpReport[Ds3Button.Select].IsPressed);
+            report.SetSpecialButtonState(DualShock4SpecialButtons.Touchpad, scpReport[Ds3Button.Select].IsPressed);
             report.SetButtonState(DualShock4Buttons.Options, scpReport[Ds3Button.Start].IsPressed);
             report.SetButtonState(DualShock4Buttons.ShoulderLeft, scpReport[Ds3Button.L1].IsPressed);
             report.SetButtonState(DualShock4Buttons.ShoulderRight, scpReport[Ds3Button.R1].IsPressed);

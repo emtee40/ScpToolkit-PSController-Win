@@ -253,31 +253,10 @@ namespace ScpDriverInstaller
             var failed = false;
             uint result = 0;
             var ds3InfPath = Path.Combine(GlobalConfiguration.AppDirectory, "WinUSB", "Ds3Controller.inf");
-            var ds4InfPath = Path.Combine(GlobalConfiguration.AppDirectory, "WinUSB", "Ds4Controller.inf");
 
             MainBusyIndicator.SetContentThreadSafe(Properties.Resources.DualShockSetupInstalling3);
 
             await Task.Run(() => result = Difx.Instance.Install(ds3InfPath,
-                DifxFlags.DRIVER_PACKAGE_ONLY_IF_DEVICE_PRESENT | DifxFlags.DRIVER_PACKAGE_FORCE, out rebootRequired));
-
-            // ERROR_NO_SUCH_DEVINST = 0xE000020B
-            if (result != 0 && result != 0xE000020B)
-            {
-                failed = true;
-
-                ExtendedMessageBox.Show(this,
-                    Properties.Resources.SetupFailedTitle,
-                    Properties.Resources.SetupFailedInstructions,
-                    Properties.Resources.SetupFailedContent,
-                    string.Format(Properties.Resources.SetupFailedVerbose,
-                        new Win32Exception(Marshal.GetLastWin32Error()), Marshal.GetLastWin32Error()),
-                    Properties.Resources.SetupFailedFooter,
-                    TaskDialogIcon.Error);
-            }
-
-            MainBusyIndicator.SetContentThreadSafe(Properties.Resources.DualShockSetupInstalling4);
-
-            await Task.Run(() => result = Difx.Instance.Install(ds4InfPath,
                 DifxFlags.DRIVER_PACKAGE_ONLY_IF_DEVICE_PRESENT | DifxFlags.DRIVER_PACKAGE_FORCE, out rebootRequired));
 
             // ERROR_NO_SUCH_DEVINST = 0xE000020B
@@ -382,10 +361,9 @@ namespace ScpDriverInstaller
                 {
                     var busInfPath = Path.Combine(
                         GlobalConfiguration.AppDirectory,
-                        "ScpVBus",
-                        Environment.Is64BitOperatingSystem ? "amd64" : "x86",
-                        "ScpVBus.inf");
-                    Log.DebugFormat("ScpVBus.inf path: {0}", busInfPath);
+                        "ViGEmBus",
+                        "ViGEmBus.inf");
+                    Log.DebugFormat("ViGEmBus.inf path: {0}", busInfPath);
 
                     // check for existence of Scp VBus
                     if (!Devcon.Find(Settings.Default.VirtualBusClassGuid, ref devPath, ref instanceId))
@@ -396,20 +374,6 @@ namespace ScpDriverInstaller
                         if (Devcon.Install(busInfPath, ref rebootRequired))
                         {
                             Log.Info("Virtual Bus Driver pre-installed in Windows Driver Store successfully");
-
-                            MainBusyIndicator.SetContentThreadSafe(Properties.Resources.VirtualBusSetupCreating);
-
-                            // create pseudo-device so the bus driver can attach to it later
-                            if (Devcon.Create("System", new Guid("{4D36E97D-E325-11CE-BFC1-08002BE10318}"),
-                                "root\\ScpVBus\0\0"))
-                            {
-                                Log.Info("Virtual Bus Created");
-                            }
-                            else
-                            {
-                                Log.Fatal("Virtual Bus Device creation failed");
-                                failed = true;
-                            }
                         }
                         else
                         {
@@ -423,7 +387,7 @@ namespace ScpDriverInstaller
 
                     // install Virtual Bus driver
                     var result = Difx.Instance.Install(busInfPath,
-                        DifxFlags.DRIVER_PACKAGE_ONLY_IF_DEVICE_PRESENT | DifxFlags.DRIVER_PACKAGE_FORCE,
+                        DifxFlags.DRIVER_PACKAGE_FORCE,
                         out rebootRequired);
 
                     if (result != 0)

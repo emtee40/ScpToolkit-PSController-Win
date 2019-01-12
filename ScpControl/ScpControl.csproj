@@ -283,16 +283,16 @@
     <Content Include="libwdi\x86\wdi-simple.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ScpVBus\amd64\ScpVBus.inf">
+    <Content Include="ViGEmBus\ViGEmBus.inf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ScpVBus\amd64\WdfCoinstaller01009.dll">
+    <Content Include="ViGEmBus\vigembus.cat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ScpVBus\x86\ScpVBus.inf">
+	<Content Include="ViGEmBus\x64\WdfCoinstaller01009.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ScpVBus\x86\WdfCoinstaller01009.dll">
+    <Content Include="ViGEmBus\x86\WdfCoinstaller01009.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="WinUSB\amd64\WdfCoInstaller01011.dll">
@@ -324,16 +324,10 @@
     <None Include="ScpControl.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ScpVBus\amd64\scpvbus.cat">
+    <None Include="ViGEmBus\x64\ViGEmBus.sys">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ScpVBus\amd64\ScpVBus.sys">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ScpVBus\x86\scpvbus.cat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ScpVBus\x86\ScpVBus.sys">
+    <None Include="ViGEmBus\x86\ViGEmBus.sys">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="WinUSB\bluetoothhost.cat">

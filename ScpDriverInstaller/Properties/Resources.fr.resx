@@ -304,7 +304,7 @@ Malheureusement, il y a trop de possibilitées pour donner toutes les solutions 
     <value>Le bus virtuel peut aussi être utilisé par d'autre programme sur votre système (comme DS4Windows, InputMapper, FreePIE, etc.). Si c'est le cas, veuillez les fermer, afin d'éviter un rédémarrage de votre ordinateur.</value>
   </data>
   <data name="VirtualBusSetupWhatWeWillDo" xml:space="preserve">
-    <value>Dans cette étape, nous essaierons d'installer le pilote de manette Xbox 360 virtuelle (aussi appelé Scarlett.Crush Productions Virtual Bus Driver, ScpVBus ou juste Virtual Bus).</value>
+    <value>Dans cette étape, nous essaierons d'installer le pilote de manette virtuelle (aussi appelé Scarlett.Crush Productions Virtual Bus Driver, ScpVBus ou juste Virtual Bus).</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Warning" type="System.Resources.ResXFileRef, System.Windows.Forms">

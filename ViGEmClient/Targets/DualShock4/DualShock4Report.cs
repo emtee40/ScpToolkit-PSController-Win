@@ -69,7 +69,7 @@ namespace Nefarius.ViGEm.Client.Targets.DualShock4
             LeftThumbY = 0x80;
             RightThumbX = 0x80;
             RightThumbY = 0x80;
-            Timestamp = (ushort) DateTime.UtcNow.Millisecond;
+            Timestamp = (ushort) (DateTime.UtcNow.Millisecond * 3 / 16);
         }
 
         public ushort Buttons { get; set; }

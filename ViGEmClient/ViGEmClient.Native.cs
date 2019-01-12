@@ -51,8 +51,9 @@ namespace Nefarius.ViGEm.Client
             public byte bSpecial;
             public byte bTriggerL;
             public byte bTriggerR;
-            public ushort wTimestamp;
             public byte unknown;
+            public ushort wTimestamp;
+            public byte unknown2;
             public short wGyroX;
             public short wGyroY;
             public short wGyroZ;
