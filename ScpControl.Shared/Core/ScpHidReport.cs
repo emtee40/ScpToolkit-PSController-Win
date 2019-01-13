@@ -205,14 +205,14 @@ namespace ScpControl.Shared.Core
                 switch (Model)
                 {
                     case DsModel.DS3:
-                        short intX = (short)(1023 - (((ushort)RawBytes[41 + 8] << 8) | (ushort)RawBytes[42 + 8]));
-                        short intZ = (short)(((ushort)RawBytes[43 + 8] << 8) | (ushort)RawBytes[44 + 8]);
-                        short intY = (short)(((ushort)RawBytes[45 + 8] << 8) | (ushort)RawBytes[46 + 8]);
+                        short intX = (short)-((RawBytes[41 + 8] << 8) | RawBytes[42 + 8]);
+                        short intY = (short)((RawBytes[43 + 8] << 8) | RawBytes[44 + 8]);
+                        short intZ = (short)((RawBytes[45 + 8] << 8) | RawBytes[46 + 8]);
                         return new DsAccelerometer
                         {
-                            X = (float)(intX - 512) / 113.0f,
-                            Y = (float)(intY - 512) / 113.0f,
-                            Z = (float)(intZ - 512) / 113.0f
+                            X = (ushort)((intX + 550) * 130),
+                            Y = (ushort)((intY - 670) * 130),
+                            Z = (ushort)((intZ - 370) * 150)
                         };
                 }
 
@@ -231,12 +231,14 @@ namespace ScpControl.Shared.Core
                 switch (Model)
                 {
                     case DsModel.DS3:
-                        short intYaw = (short)(((ushort)RawBytes[47 + 8] << 8) | (ushort)RawBytes[48 + 8]);
+                        short intYaw = (short)-((RawBytes[41 + 8] << 8) | RawBytes[42 + 8]);
+                        short intRoll = (short)((RawBytes[43 + 8] << 8) | RawBytes[44 + 8]);
+                        short intPitch = (short)((RawBytes[45 + 8] << 8) | RawBytes[46 + 8]);
                         return new DsGyroscope
                         {
-                            Yaw = (float)(intYaw - 512) * (90.0f / 123.0f),
-                            Roll = 0,
-                            Pitch = 0
+                            Yaw = (ushort)((intYaw + 550) * 130),
+                            Roll = (ushort)((intRoll - 670) * 130),
+                            Pitch = (ushort)((intPitch - 370) * 150)
                         };
                 }
 

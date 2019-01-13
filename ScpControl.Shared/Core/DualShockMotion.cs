@@ -2,15 +2,15 @@
 {
     public class DsAccelerometer
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
+        public ushort X { get; set; }
+        public ushort Y { get; set; }
+        public ushort Z { get; set; }
     }
 
     public class DsGyroscope
     {
-        public float Roll { get; set; }
-        public float Yaw { get; set; }
-        public float Pitch { get; set; }
+        public ushort Roll { get; set; }
+        public ushort Yaw { get; set; }
+        public ushort Pitch { get; set; }
     }
 }

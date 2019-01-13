@@ -234,17 +234,17 @@ namespace ScpControl
                 && scpReport[Ds3Button.Left].IsPressed)
                 report.SetDPad(DualShock4DPadValues.Northwest);
 
-            short accelX = (short)(-scpReport.Motion.X * 8192);
+            short accelX = (short)(scpReport.Motion.X);
             report.SetMotion(DualShock4Motion.AccelX, accelX);
-            short accelY = (short)(-scpReport.Motion.Y * 8192);
+            short accelY = (short)(scpReport.Motion.Y);
             report.SetMotion(DualShock4Motion.AccelY, accelY);
-            short accelZ = (short)(-scpReport.Motion.Z * 8192);
+            short accelZ = (short)(scpReport.Motion.Z);
             report.SetMotion(DualShock4Motion.AccelZ, accelZ);
-            short gyroX = (short)(scpReport.Orientation.Pitch * 16.4f);
+            short gyroX = (short)(scpReport.Orientation.Pitch);
             report.SetMotion(DualShock4Motion.GyroX, gyroX);
-            short gyroY = (short)(-scpReport.Orientation.Yaw * 16.4f);
+            short gyroY = (short)(scpReport.Orientation.Yaw);
             report.SetMotion(DualShock4Motion.GyroY, gyroY);
-            short gyroZ = (short)(-scpReport.Orientation.Roll * 16.4f);
+            short gyroZ = (short)(scpReport.Orientation.Roll);
             report.SetMotion(DualShock4Motion.GyroZ, gyroZ);
         }
 
